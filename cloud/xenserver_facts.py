@@ -190,7 +190,7 @@ def main():
     if xs_srs:
         data['xs_srs'] = xs_srs
 
-    module.exit_json(ansible=data)
+    module.exit_json(ansible_facts=data)
 
 from ansible.module_utils.basic import *
 
