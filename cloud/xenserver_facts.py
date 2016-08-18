@@ -129,25 +129,27 @@ def change_keys(recs, key='uuid', filter_func=None):
 
 def get_host(session):
     """Get the host"""
-    host_recs = session.xenapi.host.get_all()
+    host_recs = session.xenapi.host.get_all_records()
     # We only have one host, so just return its entry
     return session.xenapi.host.get_record(host_recs[0])
 
 def get_vms(session):
     xs_vms = {}
-    recs = session.xenapi.VM.get_all()
+    recs = session.xenapi.VM.get_all_records()
     if not recs:
         return None
 
     vms = change_keys(recs, key='uuid')
     for vm in vms.itervalues():
+       for k in vm.keys():
+           vm[k] = str(vm[k])
        xs_vms[vm['name_label']] = vm
     return xs_vms
 
 
 def get_srs(session):
     xs_srs = {}
-    recs = session.xenapi.SR.get_all()
+    recs = session.xenapi.SR.get_all_records()
     if not recs:
         return None
     srs = change_keys(recs, key='uuid')
